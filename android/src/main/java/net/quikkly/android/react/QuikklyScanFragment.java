@@ -13,8 +13,6 @@ import net.quikkly.android.ScanResultListener;
 import net.quikkly.android.ui.ScanFragment;
 import net.quikkly.core.ScanResult;
 
-import androidx.annotation.Nullable;
-
 public class QuikklyScanFragment extends ScanFragment implements ScanResultListener {
 
     private static final String TAG = QuikklyScanFragment.class.getSimpleName();
@@ -32,11 +30,11 @@ public class QuikklyScanFragment extends ScanFragment implements ScanResultListe
             if (context instanceof ReactContext) {
                 ReactContext reactContext = (ReactContext) context;
                 WritableMap event = Arguments.createMap();
-
-                event.putDouble("value", scanResult.tags[0].dataLong);
+                String value = scanResult.tags[0].getData().toString();
+                event.putString("value", value);
 
                 reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(view.getId(), "scanCode", event);
-                Log.d(TAG, "Found code " + scanResult.tags[0].dataLong);
+                Log.d(TAG, "Found code " + value);
             } else {
                 Log.e(TAG, "Unable to find react context");
             }
